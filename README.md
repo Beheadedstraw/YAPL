@@ -18,9 +18,9 @@ START:
   - [INPUT, total_sub]
   - [IF, $total_sub, LT, 20, PRINT, "It's less than 20"]
   - [LOOP, $test, [
-    [PRINT, [line]],
-    [ADD, [2,5], total_add2],
-    [PRINT, [$total_add2]]
+        [PRINT, [line]],
+        [ADD, [2,5], total_add2],
+        [PRINT, [$total_add2]]
     ]]
 ```
 
