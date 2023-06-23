@@ -1,0 +1,16 @@
+START:
+  - [PRINT, ["PRINTING TOTAL"]]
+  - [ADD, [2,2], total_add]
+  - [PRINT, [$total_add," this is the total"]]
+  - [OPEN, "test.txt", test]
+  - [PRINT, [$test]]
+  - [CALC, 2+4*2, total_sub]
+  - [PRINT, [$total_sub]]
+  - [INPUT, total_sub]
+  - [IF, $total_sub, LT, 20, PRINT, "It's less than 20"]
+  - [LOOP, $test, [
+    [PRINT, [line]],
+    [ADD, [2,5], total_add2],
+    [PRINT, [$total_add2]]
+    ]]
+
