@@ -18,6 +18,8 @@ r_vars = {}
 
 #storage for functions in the yaml file. Classes? The fuck are those? OOP? Sir, I'm way too innebriated for that.
 r_funcs = {}
+
+
 def INPUT(r):
     line = input()
     r_vars[r] = line
