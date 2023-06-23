@@ -21,10 +21,12 @@ r_funcs = {}
 
 
 def INPUT(r):
+    ''' It gets input from the user, duh. '''
     line = input()
     r_vars[r] = line
     
 def PRINT(line):
+    ''' It... wait for it... PRINTS stuff to the screen. '''
     complete_line = ""
     for l in line:
         if l[0] == "$":
@@ -35,6 +37,7 @@ def PRINT(line):
     print(complete_line)
         
 def ADD(numbers):
+    ''' Can you put 2 and 2 together and figure out what this does? '''
     num = list()
     for n in numbers:
         if type(n) is not int:
@@ -46,6 +49,7 @@ def ADD(numbers):
     return sum(num)
 
 def SUBTRACT(numbers):
+    ''' When opposites subtract... or is it attract... something like that '''
     #print(numbers)
     total = numbers[0]
     for n in numbers[1:]:
@@ -53,14 +57,17 @@ def SUBTRACT(numbers):
     return total
 
 def CALC(string):
+    ''' Seems like a calculating function. FYI this is just a straight eval(string) line. No really, it is. '''
     return eval(string)
 
 def OPEN(file,r_vars):
+    ''' OPEN SESAME SEEDS... or says a me, or says me... Aladdin help ya boy out.'''
     #print(r_vars[file["RETURN"]])
     r_vars[file[-1]] = open(file[1],"r").readlines()
 
 #Loops here will always have the 'line' iterator that they can reference for now. I'm too lazy to make custom iterators atm.    
 def LOOP(token, item):
+    ''' Fruity Loops. Except without the music. For now atleast. Maybe I'll throw some magical fucking AI shit in here. '''
     #print("item is: " + str(item))
     for l in item:
         x = list()
@@ -76,6 +83,7 @@ def LOOP(token, item):
         process_tokens(x)
                     
 def GET_VAR(item):
+    ''' Gets the Vars from r_vars ya har?'''
     if item[0] == "$":
         i = r_vars[item[1:]]
         if i is not None:
@@ -85,6 +93,7 @@ def GET_VAR(item):
                 
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
+    ''' No ifs ands or buts about it '''
     t = ["LT","GT","EQ","TRUE","FALSE"]
     if s[2] in t:
         if s[2] == "LT":
@@ -155,6 +164,7 @@ def IF(s):
                         
 
 def process_tokens(token):
+    ''' The magic sauce. The main loop. The head of the heads. You get the idea... maybe...? '''
     #print(token)
     for s in token:
         f = s[0]
