@@ -7,10 +7,13 @@ tokens = [
     "ELSE",
     #"WHILE",
     "PRINT",
-    "OPEN",
+    "OPEN_FILE",
+    "CLOSE_FILE",
     "CALC",
     "INPUT",
-    "LOOP"
+    "LOOP",
+    "WRITE_FILE",
+    "READ_FILE"
 ]
 
 #General variable storage. We have no concept of those fancy things like "global/private/public" variables. Pointers? Did you think this was C or something?
@@ -60,11 +63,6 @@ def CALC(string):
     ''' Seems like a calculating function. FYI this is just a straight eval(string) line. No really, it is. '''
     return eval(string)
 
-def OPEN(file,r_vars):
-    ''' OPEN SESAME SEEDS... or says a me, or says me... Aladdin help ya boy out.'''
-    #print(r_vars[file["RETURN"]])
-    r_vars[file[-1]] = open(file[1],"r").readlines()
-
 #Loops here will always have the 'line' iterator that they can reference for now. I'm too lazy to make custom iterators atm.    
 def LOOP(token, item):
     ''' Fruity Loops. Except without the music. For now atleast. Maybe I'll throw some magical fucking AI shit in here. '''
@@ -81,6 +79,30 @@ def LOOP(token, item):
                 x.append([t[0], [l]])
         #print(x)
         process_tokens(x)
+        
+def OPEN_FILE(file, var):
+    ''' OPEN SESAME SEEDS... or says a me, or says me... Aladdin help ya boy out. OPEN's a file and throws it into a variable, if the file doesn't exist, it makes one for you, neat huh?.'''
+    r_vars[var] = open(file,"a+")        
+    
+def READ_FILE(file,var):
+    ''' What? You think this is reading rainbow? It reads a file dumbass. Keep in mind you have to OPEN it first. '''
+    f = GET_VAR(file)
+    f.seek(0)
+    lines = f.readlines()
+    r_vars[var] = lines
+    return True
+            
+def WRITE_FILE(file, data):
+    ''' Is it WRITE or is it wrong? Write's shit to a file. Gotta have it OPEN first though. '''
+    f = GET_VAR(file)
+    for d in data:
+        f.write(d)
+    return True        
+
+def CLOSE_FILE(file):
+    ''' if I need to explain this to you we've got some problems.'''
+    f = GET_VAR(file)
+    f.close()
                     
 def GET_VAR(item):
     ''' Gets the Vars from r_vars ya har?'''
@@ -90,6 +112,10 @@ def GET_VAR(item):
             return i
         else:
             return False
+        
+def VAR(name, data):
+    r_vars[name] = data
+    return True
                 
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
@@ -97,10 +123,14 @@ def IF(s):
     t = ["LT","GT","EQ","TRUE","FALSE"]
     if s[2] in t:
         if s[2] == "LT":
-            if s[1][0] == "$":
-                if int(r_vars[s[1][1:]]) < int(s[3]):
-                    if s[4] in tokens:
-                        eval(s[4]+'(s[5])')
+            try:
+                if s[1][0] == "$":
+                    if type(r_vars[s[1][1:]]) == int:
+                        if int(r_vars[s[1][1:]]) < int(s[3]):
+                            if s[4] in tokens:
+                                eval(s[4]+'(s[5])')
+            except:
+                pass
             try:        
                 if s[3][0] != int():
                     if s[3][0] == "$": 
@@ -188,8 +218,8 @@ def process_tokens(token):
                 total = CALC(s[1])
                 r_vars[s[-1]]= total
                 
-            if f == "OPEN":
-                OPEN(s, r_vars)
+            if f == "OPEN_FILE":
+                OPEN_FILE(s[1], s[2])
             
             if f == "IF":
                 IF(s)
@@ -201,3 +231,9 @@ def process_tokens(token):
                 var = GET_VAR(s[1])
                 if var:
                     LOOP(s[2],var)
+            
+            if f == "WRITE_FILE":
+                WRITE_FILE(s[1],s[2])
+                
+            if f == "READ_FILE":
+                READ_FILE(s[1],s[2])
