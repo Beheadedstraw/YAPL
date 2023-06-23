@@ -1,11 +1,11 @@
 tokens = [
     "ADD",
-    "SUBTRACT",
-    "MULTIPLY",
-    "DIVIDE",
+    #"SUBTRACT",
+    #"MULTIPLY",
+    #"DIVIDE",
     "IF",
     "ELSE",
-    "WHILE",
+    #"WHILE",
     "PRINT",
     "OPEN",
     "CALC",
@@ -13,8 +13,11 @@ tokens = [
     "LOOP"
 ]
 
+#General variable storage. We have no concept of those fancy things like "global/private/public" variables. Pointers? Did you think this was C or something?
 r_vars = {}
 
+#storage for functions in the yaml file. Classes? The fuck are those? OOP? Sir, I'm way too innebriated for that.
+r_funcs = {}
 def INPUT(r):
     line = input()
     r_vars[r] = line
@@ -126,7 +129,7 @@ def IF(s):
             except:
                 pass         
             
-        if s[2] == "EQ" or s[[2] == "TRUE"]:
+        if s[2] == "EQ" or s[2] == "TRUE":
             if s[1][0] == "$": 
                 if int(r_vars[s[1][1:]]) == int(s[3]):
                     if s[4] in tokens:
