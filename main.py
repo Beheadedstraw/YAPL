@@ -1,10 +1,14 @@
+#!/usr/bin/python
 import oyaml as yaml
+import sys
 from tokens import *
 
-with open("main.yaml", "r") as file:
+with open(sys.argv[1], "r") as file:
     y = yaml.safe_load(file)
-
-if y['START']:
-    process_tokens(y['START'])
+try:
+    if y['START']:
+        process_tokens(y['START'])
+except KeyError:
+    print("Missing START: collection.")
 
  
