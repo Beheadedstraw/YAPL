@@ -33,8 +33,8 @@ def PRINT(line):
     complete_line = ""
     for l in line:
         if l[0] == "$":
-            #print(r_vars[l[1:]])
-            complete_line += str(r_vars[l[1:]])
+            #print(r_vars[l])
+            complete_line += str(r_vars[l])
         else:
             complete_line += str(l)
     print(complete_line)
@@ -45,7 +45,7 @@ def ADD(numbers):
     for n in numbers:
         if type(n) is not int:
             if n[0] == "$":
-                num.append(r_vars[n[1:]])
+                num.append(r_vars[n])
         else:
             num.append(n)
     #print(numbers)
@@ -71,7 +71,7 @@ def LOOP(token, item):
         x = list()
         for t in token:
             #print(t)
-            if t[1][0] != "line":
+            if t[1][0] != "$line":
                 x.append(t)
                 #process_tokens(t)
             else:
@@ -107,7 +107,7 @@ def CLOSE_FILE(file):
 def GET_VAR(item):
     ''' Gets the Vars from r_vars ya har?'''
     if item[0] == "$":
-        i = r_vars[item[1:]]
+        i = r_vars[item]
         if i is not None:
             return i
         else:
@@ -125,8 +125,8 @@ def IF(s):
         if s[2] == "LT":
             try:
                 if s[1][0] == "$":
-                    if type(r_vars[s[1][1:]]) == int:
-                        if int(r_vars[s[1][1:]]) < int(s[3]):
+                    if type(r_vars[s[1]]) == int:
+                        if int(r_vars[s[1]]) < int(s[3]):
                             if s[4] in tokens:
                                 eval(s[4]+'(s[5])')
             except:
@@ -134,7 +134,7 @@ def IF(s):
             try:        
                 if s[3][0] != int():
                     if s[3][0] == "$": 
-                        if int(s[1]) < int(r_vars[s[3][1:]]):
+                        if int(s[1]) < int(r_vars[s[3]]):
                             if s[4] in tokens:
                                 eval(s[4]+'(s[5])')
             except:
@@ -142,7 +142,7 @@ def IF(s):
                     
             try:
                 if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1][1:]]) < int(r_vars[s[3][1:]]):
+                    if int(r_vars[s[1]]) < int(r_vars[s[3]]):
                         if s[4] in tokens.tokens:
                             eval(s[4]+'(s[5])')
             except:
@@ -150,13 +150,13 @@ def IF(s):
             
         if s[2] == "GT":
             if s[1][0] == "$": 
-                if int(r_vars[s[1][1:]]) > int(s[3]):
+                if int(r_vars[s[1]]) > int(s[3]):
                     if s[4] in tokens:
                         eval(s[4]+'(s[5])')
             try:        
                 if s[3][0] != int():
                     if s[3][0] == "$": 
-                        if int(s[1]) > int(r_vars[s[3][1:]]):
+                        if int(s[1]) > int(r_vars[s[3]]):
                             if s[4] in tokens:
                                 eval(s[4]+'(s[5])')
             except:
@@ -164,7 +164,7 @@ def IF(s):
                     
             try:
                 if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1][1:]]) > int(r_vars[s[3][1:]]):
+                    if int(r_vars[s[1]]) > int(r_vars[s[3]]):
                         if s[4] in tokens.tokens:
                             eval(s[4]+'(s[5])')
             except:
@@ -172,13 +172,13 @@ def IF(s):
             
         if s[2] == "EQ" or s[2] == "TRUE":
             if s[1][0] == "$": 
-                if int(r_vars[s[1][1:]]) == int(s[3]):
+                if int(r_vars[s[1]]) == int(s[3]):
                     if s[4] in tokens:
                         eval(s[4]+'(s[5])')
             try:        
                 if s[3][0] != int():
                     if s[3][0] == "$": 
-                        if int(s[1]) == int(r_vars[s[3][1:]]):
+                        if int(s[1]) == int(r_vars[s[3]]):
                             if s[4] in tokens:
                                 eval(s[4]+'(s[5])')
             except:
@@ -186,7 +186,7 @@ def IF(s):
                     
             try:
                 if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1][1:]]) == int(r_vars[s[3][1:]]):
+                    if int(r_vars[s[1]]) == int(r_vars[s[3]]):
                         if s[4] in tokens.tokens:
                             eval(s[4]+'(s[5])')
             except:

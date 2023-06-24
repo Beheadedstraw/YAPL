@@ -1,19 +1,19 @@
 START:
   - [PRINT, ["PRINTING TOTAL"]]
-  - [ADD, [2,2], total_add]
+  - [ADD, [2,2], $total_add]
   - [PRINT, [$total_add," this is the total"]]
-  - [OPEN_FILE, "test.txt", test_file]
+  - [OPEN_FILE, "test.txt", $test_file]
   - [PRINT, [$test_file]]
-  - [CALC, 2+4*2, total_sub]
+  - [CALC, 2+4*2, $total_sub]
   - [PRINT, [$total_sub]]
-  - [INPUT, total_sub]
+  - [INPUT, $total_sub]
   - [IF, $total_sub, LT, 20, PRINT, "It's less than 20"]
-  - [READ_FILE, $test_file, test]
+  - [READ_FILE, $test_file, $test]
   - [LOOP, $test, [
-      [PRINT, [line]],
+      [PRINT, [$line]],
       #[ADD, [2,5], total_add2],
       #[PRINT, [$total_add2]]
     ]]
   - [WRITE_FILE, $test_file, ["\nsomebody was drinking tonight"]]
-  - [READ_FILE, $test_file, test]
+  - [READ_FILE, $test_file, $test]
   - [PRINT, [$test]]
