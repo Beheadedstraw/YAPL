@@ -114,7 +114,7 @@ def GET_VAR(item):
             return False
         
 def VAR(name, data):
-    r_vars[name] = data
+    r_vars["$"+name] = data
     return True
                 
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
@@ -237,3 +237,6 @@ def process_tokens(token):
                 
             if f == "READ_FILE":
                 READ_FILE(s[1],s[2])
+                
+            if f == "VAR":
+                VAR([1],s[2])
