@@ -1,3 +1,5 @@
+import traceback
+
 tokens = [
     "ADD",
     #"SUBTRACT",
@@ -43,7 +45,7 @@ def ADD(numbers):
     ''' Can you put 2 and 2 together and figure out what this does? '''
     num = list()
     for n in numbers:
-        if type(n) is not int:
+        if type(n) is not int and type(n) is not float:
             if n[0] == "$":
                 num.append(r_vars[n])
         else:
@@ -120,77 +122,167 @@ def VAR(name, data):
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
     ''' No ifs ands or buts about it '''
-    t = ["LT","GT","EQ","TRUE","FALSE"]
+    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ"]
     if s[2] in t:
         if s[2] == "LT":
             try:
-                if s[1][0] == "$":
-                    if type(r_vars[s[1]]) == int:
-                        if int(r_vars[s[1]]) < int(s[3]):
-                            if s[4] in tokens:
-                                eval(s[4]+'(s[5])')
-            except:
-                pass
-            try:        
-                if s[3][0] != int():
-                    if s[3][0] == "$": 
-                        if int(s[1]) < int(r_vars[s[3]]):
-                            if s[4] in tokens:
-                                eval(s[4]+'(s[5])')
-            except:
-                pass
-                    
-            try:
-                if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1]]) < int(r_vars[s[3]]):
-                        if s[4] in tokens.tokens:
-                            eval(s[4]+'(s[5])')
-            except:
-                pass
-            
+                if type(s[1]) == str and type[s[3]] == float:
+                    #print(r_vars[s[1]])
+                    if float(r_vars[s[1]]) < float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])     
+                                
+                elif type(s[1]) == float and type(s[3]) == str:
+                    if float(s[1]) < float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])    
+                                
+                elif type(s[1]) == str and type(s[3]) == str: 
+                    if float(r_vars[s[1]]) < float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+                else:
+                    if float(s[1]) < float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #prfloat(s[4][1])
+                                process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc())
+                
         if s[2] == "GT":
-            if s[1][0] == "$": 
-                if int(r_vars[s[1]]) > int(s[3]):
-                    if s[4] in tokens:
-                        eval(s[4]+'(s[5])')
-            try:        
-                if s[3][0] != int():
-                    if s[3][0] == "$": 
-                        if int(s[1]) > int(r_vars[s[3]]):
-                            if s[4] in tokens:
-                                eval(s[4]+'(s[5])')
-            except:
-                pass
-                    
             try:
-                if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1]]) > int(r_vars[s[3]]):
-                        if s[4] in tokens.tokens:
-                            eval(s[4]+'(s[5])')
-            except:
-                pass         
+                if type(s[1]) == str and type[s[3]] == float:
+                    #print(r_vars[s[1]])
+                    if float(r_vars[s[1]]) > float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])     
+                                
+                elif type(s[1]) == float and type(s[3]) == str:
+                    if float(s[1]) > float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])    
+                                
+                elif type(s[1]) == str and type(s[3]) == str: 
+                    if float(r_vars[s[1]]) > float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+                else:
+                    if float(s[1]) > float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc())      
             
         if s[2] == "EQ" or s[2] == "TRUE":
-            if s[1][0] == "$": 
-                if int(r_vars[s[1]]) == int(s[3]):
-                    if s[4] in tokens:
-                        eval(s[4]+'(s[5])')
-            try:        
-                if s[3][0] != int():
-                    if s[3][0] == "$": 
-                        if int(s[1]) == int(r_vars[s[3]]):
-                            if s[4] in tokens:
-                                eval(s[4]+'(s[5])')
-            except:
-                pass
-                    
             try:
-                if s[1][0] and s[3][0] == "$": 
-                    if int(r_vars[s[1]]) == int(r_vars[s[3]]):
-                        if s[4] in tokens.tokens:
-                            eval(s[4]+'(s[5])')
-            except:
-                pass     
+                if type(s[1]) == str and type[s[3]] == float:
+                    #print(r_vars[s[1]])
+                    if float(r_vars[s[1]]) == float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])     
+                                
+                elif type(s[1]) == float and type(s[3]) == str:
+                    if float(s[1]) == float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])    
+                                
+                elif type(s[1]) == str and type(s[3]) == str: 
+                    if float(r_vars[s[1]]) == float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+                else:
+                    if float(s[1]) == float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc())
+            
+        if s[2] == "GTEQ":
+            try:
+                if type(s[1]) == str and type[s[3]] == float:
+                    #print(r_vars[s[1]])
+                    if float(r_vars[s[1]]) >= float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])     
+                                
+                elif type(s[1]) == float and type(s[3]) == str:
+                    if float(s[1]) >= float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])    
+                                
+                elif type(s[1]) == str and type(s[3]) == str: 
+                    if float(r_vars[s[1]]) >= float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+                else:
+                    if float(s[1]) >= float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc()) 
+            
+        if s[2] == "LTEQ":
+            try:
+                if type(s[1]) == str and type[s[3]] == float:
+                    #print(r_vars[s[1]])
+                    if float(r_vars[s[1]]) <= float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])     
+                                
+                elif type(s[1]) == float and type(s[3]) == str:
+                    if float(s[1]) <= float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])    
+                                
+                elif type(s[1]) == str and type(s[3]) == str: 
+                    if float(r_vars[s[1]]) <= float(r_vars[s[3]]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+                else:
+                    if float(s[1]) <= float(s[3]):
+                        for t in s[4]:
+                            if t[0] in tokens:
+                                #print(s[4][1])
+                                process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc()) 
                         
 
 def process_tokens(token):
