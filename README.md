@@ -3,7 +3,7 @@ Yet Another Programming Language
 
 YAPL was created purely out of boredom and a few beers. I wanted something that was pretty simple and in a coding format most people would recognize (YAML).
 
-A basic exmaple is like this:
+A basic example is like this:
 ```yaml
 START:
   - [PRINT, ["PRINTING TOTAL"]]
