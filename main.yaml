@@ -12,6 +12,11 @@ START:
   - [READ_FILE, $test_file, $test]
   - [LOOP, $test, [
       [PRINT, [$line]],
-      #[ADD, [2,5], total_add2],
-      #[PRINT, [$total_add2]]
+      [FUNC, FUNCTION1]
     ]]
+
+FUNCTION1:
+    - [VAR1]
+    - [PRINT, ["This Function is working"]]
+    - [PRINT, ["And another one"]]
+  

@@ -7,7 +7,7 @@ with open(sys.argv[1], "r") as file:
     y = yaml.safe_load(file)
 
 if y['START']:
-    process_tokens(y['START'])
+    START(y)
 
 
  

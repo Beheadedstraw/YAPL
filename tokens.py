@@ -15,7 +15,8 @@ tokens = [
     "INPUT",
     "LOOP",
     "WRITE_FILE",
-    "READ_FILE"
+    "READ_FILE",
+    "FUNC"
 ]
 
 #General variable storage. We have no concept of those fancy things like "global/private/public" variables. Pointers? Did you think this was C or something?
@@ -24,7 +25,18 @@ r_vars = {}
 #storage for functions in the yaml file. Classes? The fuck are those? OOP? Sir, I'm way too innebriated for that.
 r_funcs = {}
 
-
+def START(token):
+    #print(token)
+    for t in token.items():
+        r_funcs[t[0]] = t
+        tokens.append(t[0])
+    process_tokens(r_funcs["START"][1:][0])
+    
+def FUNC(func):
+    if func in r_funcs:
+        #print(r_funcs[func][1:][0])
+        process_tokens(r_funcs[func][1:][0])
+    
 def INPUT(r):
     ''' It gets input from the user, duh. '''
     line = input()
@@ -332,3 +344,8 @@ def process_tokens(token):
                 
             if f == "VAR":
                 VAR([1],s[2])
+                
+            if f == "FUNC":
+                #print("function run: ")
+                #print(s[1])
+                FUNC(s[1])
