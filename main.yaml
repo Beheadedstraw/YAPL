@@ -16,7 +16,6 @@ START:
     ]]
 
 FUNCTION1:
-    - [VAR1]
     - [PRINT, ["This Function is working"]]
     - [PRINT, ["And another one"]]
   
