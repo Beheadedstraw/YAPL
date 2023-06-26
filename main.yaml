@@ -16,6 +16,6 @@ START:
     ]]
 
 FUNCTION1:
-    - [PRINT, ["This Function is working"]]
-    - [PRINT, ["And another one"]]
+  - [PRINT, ["This Function method is working"]]
+  - [PRINT, ["And another one"]]
   
