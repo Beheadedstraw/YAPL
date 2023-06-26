@@ -22,6 +22,8 @@ START:
     ]]
 ```
 
+Then we'd run it with `python main.py main.yaml`. 
+
 Currently YAPL is under heavily drunken development. Some of the Python dev's out there might scream at this code, be shocked, have a stroke, or maybe get a good chuckle. That's OK, because YAPL wasn't written to:
 
 * Be performant like C/Rust/Go/C++ or god forbid Java.
