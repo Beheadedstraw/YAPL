@@ -34,7 +34,7 @@ It's a pretty bare basic language. The basics of the basics.
 ![image](https://github.com/Beheadedstraw/YAPL/assets/5951719/4ea36513-d4b3-4d00-ba1f-6ec72ffdf8f9)
 
 
-Anyways, if you wanna learn how this dog shit language works, check out the barely updated docs [here](https://github.com/Beheadedstraw/YAPL/wiki/Docs).
+Anyways, if you wanna learn how this dog shit language works, check out the barely updated docs [here](https://github.com/Beheadedstraw/YAPL/wiki).
 
 # There's currently zero exception handling right now and little to no error feedback besides Python crash dumps.
 ![image](https://github.com/Beheadedstraw/YAPL/assets/5951719/64fec37c-4ccc-440a-b1d5-f0f92c416f1d)
