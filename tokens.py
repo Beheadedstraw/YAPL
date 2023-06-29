@@ -89,7 +89,7 @@ def LOOP(token, item):
                 x.append(t)
                 #process_tokens(t)
             else:
-                print([t[0], l])
+                #print([t[0], l])
                 x.append([t[0], [l]])
         #print(x)
         process_tokens(x)
