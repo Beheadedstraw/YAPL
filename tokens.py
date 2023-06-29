@@ -1,8 +1,8 @@
 import traceback
-
+import re
 tokens = [
     "ADD",
-    #"SUBTRACT",
+    "SUBTRACT",
     #"MULTIPLY",
     #"DIVIDE",
     "IF",
@@ -84,12 +84,12 @@ def LOOP(token, item):
     for l in item:
         x = list()
         for t in token:
-            #print(t)
+            print(t)
             if t[1][0] != "$line":
                 x.append(t)
                 #process_tokens(t)
             else:
-                #print([t[0], l])
+                print([t[0], l])
                 x.append([t[0], [l]])
         #print(x)
         process_tokens(x)
@@ -134,7 +134,7 @@ def VAR(name, data):
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
     ''' No ifs ands or buts about it '''
-    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ"]
+    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ","CONTAINS"]
     if s[2] in t:
         if s[2] == "LT":
             try:
@@ -218,7 +218,7 @@ def IF(s):
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
-                    if float(r_vars[s[1]]) == float(r_vars[s[3]]):
+                    if r_vars[s[1]] == r_vars[s[3]]:
                         for t in s[4]:
                             if t[0] in tokens:
                                 #print(s[4][1])
@@ -250,7 +250,7 @@ def IF(s):
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
-                    if float(r_vars[s[1]]) >= float(r_vars[s[3]]):
+                    if r_vars[s[1]] >= r_vars[s[3]]:
                         for t in s[4]:
                             if t[0] in tokens:
                                 #print(s[4][1])
@@ -293,6 +293,40 @@ def IF(s):
                             if t[0] in tokens:
                                 #print(s[4][1])
                                 process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc()) 
+                
+        if s[2] == "CONTAINS":
+            try:
+                if type(s[1]) != int and type(s[3]) != int:
+                    if str(s[1][0]) == "$": 
+                        if str(s[3][0]) == "$":
+                            if re.search(str(r_vars[s[3]]),str(r_vars[s[1]])):
+                                for t in s[4]:
+                                    if t[0] in tokens:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                        else:
+                            if re.search(str(s[3]),str(r_vars[s[1]])):
+                                for t in s[4]:
+                                    if t[0] in tokens:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                    else:
+                        if str(s[3][0]) == "$":
+                            if re.search(str(r_vars[s[3]]),str(s[1])):
+                                for t in s[4]:
+                                    if t[0] in tokens:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                        else:
+                            if re.search(str(s[3]),str(s[1])):
+                                for t in s[4]:
+                                    if t[0] in tokens:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                                
+                    
             except Exception as e:
                 print(traceback.format_exc()) 
                         

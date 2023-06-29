@@ -4,15 +4,13 @@ START:
   - [PRINT, [$total_add," this is the total"]]
   - [OPEN_FILE, "test.txt", $test_file]
   - [PRINT, [$test_file]]
-  - [CALC, 2+4*2, $total_sub]
-  - [PRINT, [$total_sub]]
-  - [IF, 9.4, LTEQ, 9.6, [
-    [PRINT, ["It's less than 20"]]
-    ]]
   - [READ_FILE, $test_file, $test]
   - [LOOP, $test, [
       [PRINT, [$line]],
       [FUNC, FUNCTION1]
+    ]]
+  - [IF, $test, CONTAINS, "herp", [
+      [PRINT, ["This line contains herp"]]
     ]]
 
 FUNCTION1:
