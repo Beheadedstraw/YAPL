@@ -1,5 +1,5 @@
 # YAPL
-Yet Another Programming Language
+Yet Another ~~Programming~~ sKrPtYnG Language
 
 YAPL was created purely out of boredom and a few beers. I wanted something that was pretty simple and in a coding format most people would recognize (YAML).
 
