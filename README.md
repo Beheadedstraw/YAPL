@@ -7,18 +7,29 @@ A basic example is like this:
 ```yaml
 START:
   - [PRINT, ["PRINTING TOTAL"]]
-  - [ADD, [2,2], total_add]
-  - [PRINT, [$total_add," this is the total"]]
-  - [OPEN, "test.txt", test]
-  - [PRINT, [$test]]
-  - [CALC, 2+4*2, total_sub]
-  - [PRINT, [$total_sub]]
-  - [INPUT, total_sub]
-  - [IF, $total_sub, LT, 20, PRINT, "It's less than 20"]
+  - [ADD, [2.5,2.2], $total_add]
+  - [PRINT, [$total_add," is the total"]]
+  - [OPEN_FILE, "test.txt", $test_file]
+  - [PRINT, [$test_file]]
+  - [READ_FILE, $test_file, $test]
   - [LOOP, $test, [
-        [PRINT, [line]],
-        [ADD, [2,5], total_add2],
-        [PRINT, [$total_add2]]
+      [PRINT, [$line]],
+    ]]
+  - [PRINT, [$test]]
+  - [IF, $test, CONTAIN, "herp", [
+      [FUNCTION1],
+      [PRINT, ["This line contains herp"]]
+    ]]
+
+FUNCTION1:
+  - [PRINT, ["This Function method is working"]]
+  - [PRINT, ["And another one"]]
+
+  - [IF, $test, CONTAIN, "derp", [
+      [PRINT, ["This contains derp"]]
+    ],
+    [
+      [PRINT, ["This does NOT contain derp"]]
     ]]
 ```
 
