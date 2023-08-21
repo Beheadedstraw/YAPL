@@ -1,19 +1,25 @@
 START:
   - [PRINT, ["PRINTING TOTAL"]]
   - [ADD, [2.5,2.2], $total_add]
-  - [PRINT, [$total_add," this is the total"]]
+  - [PRINT, [$total_add," is the total"]]
   - [OPEN_FILE, "test.txt", $test_file]
   - [PRINT, [$test_file]]
   - [READ_FILE, $test_file, $test]
   - [LOOP, $test, [
       [PRINT, [$line]],
-      [FUNC, FUNCTION1]
     ]]
+  - [PRINT, [$test]]
   - [IF, $test, CONTAINS, "herp", [
-      [PRINT, ["This line contains herp"]]
+        [FUNCTION1],
+        [PRINT, ["This line contains herp"]]
     ]]
 
 FUNCTION1:
   - [PRINT, ["This Function method is working"]]
   - [PRINT, ["And another one"]]
+
+  - [IF, $test, NOTCONTAIN, "herp", [
+        [PRINT, ["This function line contains herp"]]
+    ]]
+  
   

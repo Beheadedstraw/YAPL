@@ -3,7 +3,8 @@ import oyaml as yaml
 import sys
 from tokens import *
 
-with open(sys.argv[1], "r") as file:
+#with open(sys.argv[1], "r") as file:
+with open("main.yaml", "r") as file:
     y = yaml.safe_load(file)
 
 if y['START']:

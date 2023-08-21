@@ -16,8 +16,9 @@ tokens = [
     "LOOP",
     "WRITE_FILE",
     "READ_FILE",
-    "FUNC"
 ]
+
+functions = []
 
 #General variable storage. We have no concept of those fancy things like "global/private/public" variables. Pointers? Did you think this was C or something?
 r_vars = {}
@@ -26,13 +27,16 @@ r_vars = {}
 r_funcs = {}
 
 def START(token):
+    ''' ICH, NI, SAN... STARTO! '''
     #print(token)
     for t in token.items():
         r_funcs[t[0]] = t
-        tokens.append(t[0])
+        functions.append(t[0])
     process_tokens(r_funcs["START"][1:][0])
     
 def FUNC(func):
+    ''' WHERRRRRE IS THE FUNC... GOTTA HAVE THAT FUNC... OWWWW'''
+    #print(func)
     if func in r_funcs:
         #print(r_funcs[func][1:][0])
         process_tokens(r_funcs[func][1:][0])
@@ -83,19 +87,25 @@ def LOOP(token, item):
     #print("item is: " + str(item))
     for l in item:
         x = list()
+        #print(l)
         for t in token:
-            print(t)
-            if t[1][0] != "$line":
-                x.append(t)
+            #print("token is:")
+            #print(t)
+            if type(t) == list:
+                if t[0]== "IF":
+                    x.append(t)
+                elif type(t[0]) == list:
+                    if t[1][0] != "$line":
+                        x.append(t)
                 #process_tokens(t)
-            else:
-                #print([t[0], l])
-                x.append([t[0], [l]])
+                else:
+                    #print([t[0], l])
+                    x.append([t[0], [l]])
         #print(x)
         process_tokens(x)
         
 def OPEN_FILE(file, var):
-    ''' OPEN SESAME SEEDS... or says a me, or says me... Aladdin help ya boy out. OPEN's a file and throws it into a variable, if the file doesn't exist, it makes one for you, neat huh?.'''
+    ''' OPEN SESAME SEEDS... or says a me, or says me... Aladdin help ya boy out. OPEN's a file pointer and throws it into a variable, if the file doesn't exist, it makes one for you, neat huh?.'''
     r_vars[var] = open(file,"a+")        
     
 def READ_FILE(file,var):
@@ -128,13 +138,14 @@ def GET_VAR(item):
             return False
         
 def VAR(name, data):
+    ''' Stores a variable in r_vars '''
     r_vars["$"+name] = data
     return True
                 
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
     ''' No ifs ands or buts about it '''
-    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ","CONTAINS"]
+    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ","CONTAINS","NOTCONTAIN"]
     if s[2] in t:
         if s[2] == "LT":
             try:
@@ -142,27 +153,27 @@ def IF(s):
                     #print(r_vars[s[1]])
                     if float(r_vars[s[1]]) < float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])     
                                 
                 elif type(s[1]) == float and type(s[3]) == str:
                     if float(s[1]) < float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
                     if float(r_vars[s[1]]) < float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
                 else:
                     if float(s[1]) < float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #prfloat(s[4][1])
                                 process_tokens([t])
             except Exception as e:
@@ -174,27 +185,27 @@ def IF(s):
                     #print(r_vars[s[1]])
                     if float(r_vars[s[1]]) > float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])     
                                 
                 elif type(s[1]) == float and type(s[3]) == str:
                     if float(s[1]) > float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
                     if float(r_vars[s[1]]) > float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
                 else:
                     if float(s[1]) > float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
             except Exception as e:
@@ -206,27 +217,27 @@ def IF(s):
                     #print(r_vars[s[1]])
                     if float(r_vars[s[1]]) == float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])     
                                 
                 elif type(s[1]) == float and type(s[3]) == str:
                     if float(s[1]) == float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions: 
                                 #print(s[4][1])
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
                     if r_vars[s[1]] == r_vars[s[3]]:
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
                 else:
                     if float(s[1]) == float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
             except Exception as e:
@@ -238,27 +249,27 @@ def IF(s):
                     #print(r_vars[s[1]])
                     if float(r_vars[s[1]]) >= float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])     
                                 
                 elif type(s[1]) == float and type(s[3]) == str:
                     if float(s[1]) >= float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
                     if r_vars[s[1]] >= r_vars[s[3]]:
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
                 else:
                     if float(s[1]) >= float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
             except Exception as e:
@@ -270,27 +281,27 @@ def IF(s):
                     #print(r_vars[s[1]])
                     if float(r_vars[s[1]]) <= float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])     
                                 
                 elif type(s[1]) == float and type(s[3]) == str:
                     if float(s[1]) <= float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])    
                                 
                 elif type(s[1]) == str and type(s[3]) == str: 
                     if float(r_vars[s[1]]) <= float(r_vars[s[3]]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
                 else:
                     if float(s[1]) <= float(s[3]):
                         for t in s[4]:
-                            if t[0] in tokens:
+                            if t[0] in tokens or t[0] in functions:
                                 #print(s[4][1])
                                 process_tokens([t])
             except Exception as e:
@@ -303,32 +314,62 @@ def IF(s):
                         if str(s[3][0]) == "$":
                             if re.search(str(r_vars[s[3]]),str(r_vars[s[1]])):
                                 for t in s[4]:
-                                    if t[0] in tokens:
+                                    if t[0] in tokens or t[0] in functions:
                                         #print(s[4][1])
                                         process_tokens([t])
                         else:
                             if re.search(str(s[3]),str(r_vars[s[1]])):
                                 for t in s[4]:
-                                    if t[0] in tokens:
+                                    if t[0] in tokens or t[0] in functions:
                                         #print(s[4][1])
                                         process_tokens([t])
                     else:
                         if str(s[3][0]) == "$":
                             if re.search(str(r_vars[s[3]]),str(s[1])):
                                 for t in s[4]:
-                                    if t[0] in tokens:
+                                    if t[0] in tokens or t[0] in functions:
                                         #print(s[4][1])
                                         process_tokens([t])
                         else:
                             if re.search(str(s[3]),str(s[1])):
                                 for t in s[4]:
-                                    if t[0] in tokens:
+                                    if t[0] in tokens or t[0] in functions:
                                         #print(s[4][1])
-                                        process_tokens([t])
-                                
-                    
+                                        process_tokens([t])            
             except Exception as e:
                 print(traceback.format_exc()) 
+                
+        if s[2] == "NOTCONTAIN":
+            try:
+                if type(s[1]) != int and type(s[3]) != int:
+                    if str(s[1][0]) == "$": 
+                        if str(s[3][0]) == "$":
+                            if re.search(str(r_vars[s[3]]),str(r_vars[s[1]])) == None:
+                                for t in s[4]:
+                                    if t[0] in tokens or t[0] in functions:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                        else:
+                            if re.search(str(s[3]),str(r_vars[s[1]])) == None:
+                                for t in s[4]:
+                                    if t[0] in tokens or t[0] in functions:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                    else:
+                        if str(s[3][0]) == "$":
+                            if re.search(str(r_vars[s[3]]),str(s[1])) == None:
+                                for t in s[4]:
+                                    if t[0] in tokens or t[0] in functions:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+                        else:
+                            if re.search(str(s[3]),str(s[1])) == None:
+                                for t in s[4]:
+                                    if t[0] in tokens or t[0] in functions:
+                                        #print(s[4][1])
+                                        process_tokens([t])
+            except Exception as e:
+                print(traceback.format_exc())
                         
 
 def process_tokens(token):
@@ -336,7 +377,7 @@ def process_tokens(token):
     #print(token)
     for s in token:
         f = s[0]
-        #print(s)
+        #print(f)
         if f in tokens:
             if str(f) == "ADD":
                 total = ADD(s[1])
@@ -360,6 +401,7 @@ def process_tokens(token):
                 OPEN_FILE(s[1], s[2])
             
             if f == "IF":
+                #print(s)
                 IF(s)
                 
             if f == "INPUT":
@@ -379,7 +421,7 @@ def process_tokens(token):
             if f == "VAR":
                 VAR([1],s[2])
                 
-            if f == "FUNC":
-                #print("function run: ")
-                #print(s[1])
-                FUNC(s[1])
+        if f in functions:
+            #print("function run: ")
+            #print(f)
+            FUNC(f)
