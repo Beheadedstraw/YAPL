@@ -145,7 +145,7 @@ def VAR(name, data):
 #This is really fucking ugly, but it gets the job done for now with integer/float comparisons and true/false statements.
 def IF(s):
     ''' No ifs ands or buts about it '''
-    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ","CONTAINS","NOTCONTAIN"]
+    t = ["LT","GT","EQ","TRUE","FALSE","LTEQ","GTEQ","CONTAIN","NOTCONTAIN"]
     process_else = True
     
     if s[2] in t:
@@ -249,7 +249,7 @@ def IF(s):
             except Exception as e:
                 print(traceback.format_exc()) 
                 
-        if s[2] == "CONTAINS":
+        if s[2] == "CONTAIN":
             try:
                 if type(s[1]) != int and type(s[3]) != int:
                     if str(s[1][0]) == "$": 
