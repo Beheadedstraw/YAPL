@@ -10,16 +10,19 @@ START:
     ]]
   - [PRINT, [$test]]
   - [IF, $test, CONTAINS, "herp", [
-        [FUNCTION1],
-        [PRINT, ["This line contains herp"]]
+      [FUNCTION1],
+      [PRINT, ["This line contains herp"]]
     ]]
 
 FUNCTION1:
   - [PRINT, ["This Function method is working"]]
   - [PRINT, ["And another one"]]
 
-  - [IF, $test, NOTCONTAIN, "herp", [
-        [PRINT, ["This function line contains herp"]]
+  - [IF, $test, CONTAINS, "derp", [
+      [PRINT, ["This contains derp"]]
+    ],
+    [
+      [PRINT, ["This does NOT contain derp"]]
     ]]
   
   
